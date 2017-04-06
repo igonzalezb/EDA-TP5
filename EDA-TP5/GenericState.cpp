@@ -1,47 +1,47 @@
 #include "GenericState.h"
 
 
-GenericState* onRrq (GenericEvent * ev)
+GenericState* onRrq ()
 {
     return NULL;
 }
 
-GenericState* onWrq (GenericEvent * ev)
+GenericState* onWrq ()
 {
     return NULL;
 }
 
-GenericState* onData (GenericEvent * ev)
+GenericState* onData ()
 {
     return NULL;
 }
 
-GenericState* onLastData (GenericEvent * ev)
+GenericState* onLastData ()
 {
     return NULL;
 }
 
-GenericState* onAck(GenericEvent * ev)
+GenericState* onAck()
 {
     return NULL;
 }
 
-GenericState* onLastAck (GenericEvent * ev)
+GenericState* onLastAck ()
 {
     return NULL;
 }
 
-GenericState* onTimeout(GenericEvent * ev)
+GenericState* onTimeout()
 {
     return NULL;
 }
 
-GenericState* onError (GenericEvent * ev)
+GenericState* onError ()
 {
     return NULL;
 }
 
-GenericState* onExit (GenericEvent * ev)
+GenericState* onExit ()
 {
     return NULL;
 }
