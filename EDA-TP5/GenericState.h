@@ -1,7 +1,7 @@
 #ifndef GenericState_h
 #define GenericState_h
 
-#include <stdio.h>
+#include <cstdio>
 
 
 
