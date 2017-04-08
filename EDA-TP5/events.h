@@ -1,63 +1,100 @@
 
 #ifndef events_h
 #define events_h
+ 
+#define	CLIENT	1	
+#define SERVER	0
 
+#define I_AM	CLIENT
 
-#include <stdio.h>
 #include "GenericEvent.h"
+#include "Point.h"
+#include <string>
 
-class rrq: public GenericEvent
-{
-    public:
-        rrq ();
-};
+using namespace std;
 
-class wrq: public GenericEvent
-{
-    public:
-        wrq ();
-};
-
-class data: public GenericEvent
-{
-    public:
-        data ();
-};
-
-class last_data: public GenericEvent
+class SimulationEvent : public GenericEvent
 {
 public:
-    last_data();
+	SimulationEvent(int type, unsigned int x, unsigned int y, string name) : GenericEvent (type)
+	{
+		wheretoWrite.setX(x);
+		wheretoWrite.setY(y);
+		this->name = name;
+	}
+
+		//Car(const string& _licensePlate, long _motorId,
+		//ChildSeat * _childSeat)
+		//: Vehicle(_licensePlate, _motorId),
+		//childSeat(_childSeat) {}
+
+	string getName() { return name; }
+	Point getWhereToWrite() { return wheretoWrite; }
+//	void writeIn(int x, int y);
+
+protected:
+	Point wheretoWrite;
+	string name;
 };
 
 
-class ack: public GenericEvent
+#if I_AM == SERVER
+
+class Rrq: public SimulationEvent
 {
 public:
-    ack();
+	Rrq (unsigned int x, unsigned int y) : SimulationEvent (RRQ, x, y, "RRQ"){;}
+
 };
 
-class last_ack: public GenericEvent
+class Wrq: public SimulationEvent
 {
 public:
-    last_ack();
+	Wrq (unsigned int x, unsigned int y) : SimulationEvent (WRQ, x, y, "WRQ"){;}
 };
+#endif
 
-class timeout: public GenericEvent
-{
-    timeout();
-};
-
-class error: public GenericEvent
+class Data: public SimulationEvent
 {
 public:
-    error();
+	Data (unsigned int x, unsigned int y) : SimulationEvent (DATA, x, y, "DATA"){;}
 };
 
-class exit: public GenericEvent
+class LastData: public SimulationEvent
 {
 public:
-    exit();
+	LastData (unsigned int x, unsigned int y) : SimulationEvent (LAST_DATA, x, y, "LAST DATA"){;}
+};
+
+
+class Ack: public SimulationEvent
+{
+public:
+	Ack (unsigned int x, unsigned int y) : SimulationEvent (ACK, x, y, "ACK"){;}
+};
+
+class LastAck: public SimulationEvent
+{
+public:
+	LastAck (unsigned int x, unsigned int y) : SimulationEvent (LAST_ACK, x, y, "LAST ACK"){;}
+};
+
+class Timeout: public SimulationEvent
+{
+public:
+	Timeout (unsigned int x, unsigned int y) : SimulationEvent (TIMEOUT, x, y, "TIMEOUT"){;}
+};
+
+class Error: public SimulationEvent
+{
+public:
+	Error (unsigned int x, unsigned int y) : SimulationEvent (ERROR, x, y, "ERROR"){;}
+};
+
+class Exit: public SimulationEvent
+{
+public:
+	Exit (unsigned int x, unsigned int y) : SimulationEvent (EXIT, x, y, "EXIT"){;}
 };
 
 

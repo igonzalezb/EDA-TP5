@@ -4,7 +4,7 @@
 #include "GenericEvent.h"
 
 //eventos:
-typedef enum{ACK, LAST_ACK, DATA, LAST_DATA, TIMEOUT, ERROR, EXIT, EVENT_COUNT} event_t;
+
 
 //teclas correspondientes a cada evento:
 #define ACK_K		'a'
@@ -16,7 +16,7 @@ typedef enum{ACK, LAST_ACK, DATA, LAST_DATA, TIMEOUT, ERROR, EXIT, EVENT_COUNT} 
 #define EXIT_K		'q'
 
 
-genericEvent * eventGenerator();
+GenericEvent * eventGenerator();
 
 
 #endif //CLIENT_H
