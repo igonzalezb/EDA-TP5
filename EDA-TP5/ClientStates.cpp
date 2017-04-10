@@ -1,9 +1,9 @@
-#include "ClientStates.hpp"
+#include "ClientStates.h"
 
 extern "C" {
 #include "curses.h"
 }
-#include "events.hpp"
+#include "events.h"
 
 
 
