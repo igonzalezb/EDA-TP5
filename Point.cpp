@@ -1,28 +1,28 @@
 #include "Point.h"
 
 
-Point :: Point(double _x, double _y)
+Point :: Point(uint32_t _x, uint32_t _y)
 {
 	x = _x;	//inicializa ambas coordenadas con los valores recibidos (o 0 por defecto)
 	y = _y;
 }	
 
-double Point :: getX()
+uint32_t Point :: getX()
 {
 	return x;
 }
 
-double Point :: getY()
+uint32_t Point :: getY()
 {
 	return y;
 }
 
-void Point :: setX(double _x)
+void Point :: setX(uint32_t _x)
 {
 	x = _x;
 }
 
-void Point :: setY(double _y)
+void Point :: setY(uint32_t _y)
 {
 	y = _y;
 }

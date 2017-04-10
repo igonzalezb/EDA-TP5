@@ -8,34 +8,19 @@
 #define I_AM	CLIENT
 
 #include "GenericEvent.h"
+#include "FSM_Simulation.h"
 #include "Point.h"
 #include <string>
 
 using namespace std;
 
-class SimulationEvent : public GenericEvent
-{
-public:
-	SimulationEvent(int type, unsigned int x, unsigned int y, string name) : GenericEvent (type)
-	{
-		wheretoWrite.setX(x);
-		wheretoWrite.setY(y);
-		this->name = name;
-	}
 
-		//Car(const string& _licensePlate, long _motorId,
-		//ChildSeat * _childSeat)
-		//: Vehicle(_licensePlate, _motorId),
-		//childSeat(_childSeat) {}
+#if I_AM == CLIENT
+enum eventos{ACK, LAST_ACK, DATA, LAST_DATA, TIMEOUT, ERROR, EXIT};
+#else
+enum eventos{ACK, LAST_ACK, DATA, LAST_DATA, TIMEOUT, ERROR, EXIT, RRQ, WRQ};
+#endif
 
-	string getName() { return name; }
-	Point getWhereToWrite() { return wheretoWrite; }
-//	void writeIn(int x, int y);
-
-protected:
-	Point wheretoWrite;
-	string name;
-};
 
 
 #if I_AM == SERVER

@@ -1,4 +1,5 @@
 #include "GenericFSM.h"
+#include "events.h"
 
 
 void GenericFSM :: dispach(GenericEvent& ev)
@@ -33,6 +34,15 @@ void GenericFSM :: dispach(GenericEvent& ev)
 		case EXIT:
 			newState = currentState->onExit(&ev);
 		break;
+#if I_AM == SERVER
+		case RRQ:
+			newState = currentState->onRrq(&ev);
+		break;
+
+		case WRQ:
+			newState = currentState->onWrq(&ev);
+		break;
+#endif
 	}
 
 	if (newState != NULL)

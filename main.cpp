@@ -8,13 +8,28 @@ extern "C" {
 #include "GenericEvent.h"
 #include "GenericFSM.h"
 #include "events.h"
-#include "ClientStates.h"
 #include <cctype>
 
+enum rows{STATE_X = 10, EV_X, LAST_EV_X, ACTION_X};
+
+#define ACTION_Y	58
+#define STATE_Y		48
+#define EV_Y		57
+#define LAST_EV_Y	64
 
 
 #if I_AM == CLIENT
-#include "client.h"
+#include "ClientStates.h"
+
+#elif I_AM == SERVER
+#include "ServerStates.h"
+
+#define WRQ_K		'w'	//eventos unicamente para server
+#define	RRQ_K		'r'
+
+#else
+#error	"This program must emulate either a CLIENT or a SERVER in a TFTP connection"
+#endif
 
 //teclas correspondientes a cada evento:
 #define ACK_K		'a'
@@ -26,20 +41,10 @@ extern "C" {
 #define EXIT_K		'q'
 
 
-GenericEvent * eventGenerator();
-
-
-#elif I_AM == SERVER
-#include "server.h"
-#else
-#error	"This program must emulate either a CLIENT or a SERVER in a TFTP connection"
-#endif
-
-
-
 
 using namespace std;
 
+GenericEvent * eventGenerator();
 
 
 int main(void) 
@@ -47,7 +52,7 @@ int main(void)
 	WINDOW * winTest=NULL;                     //Variable en dónde se guarda la terminal (Window) en donde voy a trabajar.
 	GenericEvent * newEv = NULL;
 	string lastEvent;
-	int key;
+
 
 	//Inicializo la terminal y verifico que se haya inicializado correctamente:
 	winTest = initscr();
@@ -63,44 +68,57 @@ int main(void)
 	noecho();
 	curs_set(0);
 
+	
+
+#if I_AM == CLIENT	
 	printw("\tPrograma de simulación de cliente TFTP implementado con FSM \n\n"
 		"\tCuando el usuario presiona las teclas de Eventos entiende \n"
 		"\tque se generó un nuevo evento y responde ante ese evento \n"
-		"\trealizando una acción y cambiando el estado.\n\n"
-		"\t Simular lectura o escritura? (r/w) ");
-
+		"\trealizando una acción y cambiando el estado.");
 	
-	move(2*EVENT_COUNT + 7,0);			
+	move(6,0);
+	printw("\tSimular lectura o escritura? (r/w)");
 	
 	GenericFSM fsm;
-
-	do { key = getch();	}
+	int key;
+	do { key = tolower(getch());	}
 	while (key!= 'r' && key != 'w');
 
-	move(6,0);
-	printw("\t\t\t\t\t\t\t");
-	
-	move(8, 45);
-	printw("Status de la FSM");
-	move(11, 40);
-	printw("Evento Recibido: Esperando Evento...");
-	move(12, 40);
-	printw("Último Evento Recibido: N/A");
-	move(13, 40);
-	printw("Accion ejecutada: N/A");
-	
-	move (10,40);
+	move (STATE_X,40);
 	switch (key) {
 		case 'r':
-			fsm.setState(new Reading());
-			printw("Estado = Reading\t\t\t");
+			fsm.setState(new Reading(STATE_X, STATE_Y));
+			printw("Estado: Reading");
+			clrtoeol();
 		break;
 
 		case 'w':
-			fsm.setState(new Writing());
-			printw("Estado = Writing\t\t\t");
+			fsm.setState(new Writing(STATE_X, STATE_Y));
+			printw("Estado: Writing");
+			clrtoeol();
 		break;
 	}
+
+	move(6,0);
+	clrtoeol();	
+#else
+	
+	printw("\tPrograma de simulación de servidor TFTP implementado con FSM \n\n"
+		"\tCuando el usuario presiona las teclas de Eventos entiende \n"
+		"\tque se generó un nuevo evento y responde ante ese evento \n"
+		"\trealizando una acción y cambiando el estado.");
+	move(10,40);
+	printw("Estado: Idle");
+	GenericFSM fsm(new Idle(STATE_X, STATE_Y));
+#endif
+	move(STATE_X-1, 45);
+	printw("Status de la FSM");
+	move(EV_X, 40);
+	printw("Evento Recibido: Esperando Evento...");
+	move(LAST_EV_X, 40);
+	printw("Último Evento Recibido: N/A");
+	move(ACTION_X, 40);
+	printw("Accion ejecutada: N/A");	
 
 	move(8, 3);
 	printw("Eventos\t\t\t|");
@@ -119,34 +137,41 @@ int main(void)
 	move(16, 3);
 	printw("Q = EXIT\t\t\t|");
 
-
-	move(2*EVENT_COUNT + 7,0);			
-	printw("\tPress \"Q\" to continue...\n");
-
+#if I_AM == SERVER
+	move(17, 3);
+	printw("R = RRQ\t\t\t|");
+	move(18, 3);
+	printw("W = WRQ\t\t\t|");
+#endif
 
 	do {
 		delete newEv;
 		newEv = eventGenerator();
 
 		if (newEv != NULL) {
-			move(11, 40);
 			lastEvent = ((SimulationEvent*)newEv)->getName();
-			printw("Evento Recibido: %s\t\t\t", &(lastEvent[0]));
+			move(EV_X, EV_Y);
+			printw("%s", &(lastEvent[0]));
+			clrtoeol();
 			this_thread::sleep_for(chrono::seconds(1));
 
 			fsm.dispach(*newEv);
 			this_thread::sleep_for(chrono::seconds(1));
-			move(12, 40);
-			printw("Ultimo evento Recibido: %s\t\t\t", &(lastEvent[0]));
+			move(LAST_EV_X, LAST_EV_Y);
+			printw("%s", &(lastEvent[0]));
+			clrtoeol();
 		}
 		else {
-			move(11,40);
-			printw("Evento Recibido: esperando evento\t\t\t");
+			move(EV_X,EV_Y);
+			printw("esperando evento");
+			clrtoeol();
 		}
 	}
-	while (newEv == NULL || (newEv->type() != EXIT && newEv->type()!= ERROR));
-	
-
+#if I_AM == CLIENT
+	while (newEv == NULL || (newEv->type() != EXIT && newEv->type()!= ERROR && newEv->type()!=LAST_DATA));
+#else
+	while (newEv == NULL || newEv->type() != EXIT);
+#endif
 	//Llamo para termiar PDCurses.
 	endwin();
 	
@@ -163,32 +188,41 @@ GenericEvent * eventGenerator()
 	
 	switch(tolower(key)){
 		case ACK_K:
-			ev = new Ack(10,40); 
+			ev = new Ack(ACTION_X,ACTION_Y); 
 			break;
 
 		case LAST_ACK_K:
-			ev = new LastAck(10,40); 
+			ev = new LastAck(ACTION_X,ACTION_Y); 
 			break;
 
 		case DATA_K: 
-			ev = new Data(10,40); 
+			ev = new Data(ACTION_X,ACTION_Y); 
 			break;
 
 		case LAST_DATA_K: 
-			ev = new LastData(10,40); 
+			ev = new LastData(ACTION_X,ACTION_Y); 
 			break;
 
 		case TIMEOUT_K: 
-			ev = new Timeout(10,40); 
+			ev = new Timeout(ACTION_X,ACTION_Y); 
 			break;
 
 		case ERROR_K: 
-			ev = new Error(10,40); 
+			ev = new Error(ACTION_X,ACTION_Y); 
 			break;
 
 		case EXIT_K: 
-			ev = new Exit(10,40); 
+			ev = new Exit(ACTION_X,ACTION_Y); 
 			break;
+#if I_AM == SERVER
+		case RRQ_K:
+			ev = new Rrq(ACTION_X,ACTION_Y);
+			break;
+
+		case WRQ_K:
+			ev = new Wrq(ACTION_X,ACTION_Y);
+			break;
+#endif // I_AM == SERVER
 	}
 
 	return ev;

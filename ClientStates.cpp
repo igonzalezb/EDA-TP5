@@ -1,5 +1,6 @@
 #include "ClientStates.h"
-extern "C" { 
+
+extern "C" {
 #include "curses.h"
 }
 #include "events.h"
@@ -8,150 +9,121 @@ extern "C" {
 
 GenericState* Reading :: onData (GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("store data, send ACK");
+    clrtoeol();
 
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Reading\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: store data, send ACK\t\t");
-
-	return NULL;
+    return NULL;
 }
 
 GenericState* Reading :: onLastData (GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
-
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Reading\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: store data, send ACK, close file\t\t");
-
-	return NULL;
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("store data, send LAST ACK, close file");
+	clrtoeol();
+    
+    return NULL;
 }
 
 GenericState* Reading :: onTimeout(GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
-
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Reading\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: resend ACK\t\t");
-
-	return NULL;
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("resend ACK (once per data block)");
+	clrtoeol();
+    
+    return NULL;
 }
-
 
 GenericState* Reading :: onError (GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
-
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Reading\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: close file\t\t");
-
-	return NULL;
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("close file");
+    clrtoeol();
+   
+    return NULL;
 }
-
 
 GenericState* Reading :: onExit (GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
 
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Reading\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: close file\t\t");
-
-	return NULL;
+    move(p.getX(), p.getY());
+    printw("close file and shut down");
+	clrtoeol();
+    
+    return NULL;
 }
-
-
 
 
 GenericState* Writing :: onAck(GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("send data");
+    clrtoeol();
 
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Writing\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: send data\t\t");
-
-	return NULL;
+    return NULL;
 }
-
 
 GenericState* Writing :: onLastAck (GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("close file");
+    clrtoeol();
 
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Writing\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: close file\t\t");
-
-	return NULL;
+    return NULL;
 }
-
 
 GenericState* Writing :: onTimeout(GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
-
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Writing\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: resend data\t\t");
-
-	return NULL;
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("resend data (only once per data block)");
+	clrtoeol();
+    
+    return NULL;
 }
-
-
 
 GenericState* Writing :: onError (GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move(p.getX(), p.getY());
+    printw("close file");
+    clrtoeol();
 
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Writing\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: close file\t\t");
-
-	return NULL;
+    return NULL;
 }
-
 
 GenericState* Writing :: onExit (GenericEvent * event)
 {
-	SimulationEvent * ev = (SimulationEvent *)event;
-	Point p = ev->getWhereToWrite();
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
 
-	move((unsigned int)p.getX(), (unsigned int)p.getY());
-	printw("Estado = Writing\t\t");
-
-	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-	printw("Accion ejecutada: close file\t\t");
-
-	return NULL;
+    move(p.getX(), p.getY());
+    printw("close file and shut down");
+	clrtoeol();
+    
+    return NULL;
 }
