@@ -6,12 +6,12 @@
 //  Copyright © 2017 mmaspero. All rights reserved.
 //
 
-#ifndef ClientStates_hpp
-#define ClientStates_hpp
+#ifndef ClientStates_h
+#define ClientStates_h
 
 #include <stdio.h>
-#include "GenericState.hpp"
-#include "GenericEvent.hpp"
+#include "GenericState.h"
+#include "GenericEvent.h"
 #include <string>
 
 
@@ -62,4 +62,4 @@ public:
     virtual GenericState* onWrq (GenericEvent * ev);
     
 };
-#endif /* ClientStates_hpp */
+#endif /* ClientStates_h */
