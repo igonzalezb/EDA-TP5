@@ -76,32 +76,7 @@ GenericState* Reading :: onExit (GenericEvent * event)
     return NULL;
 }
 
-GenericState* Reading :: onRrq (GenericEvent * event)
-{
-    SimulationEvent * ev = (SimulationEvent *)event;
-    Point p = ev->getWhereToWrite();
-    
-    move((unsigned int)p.getX(), (unsigned int)p.getY());
-    printw("Estado = Reading");
-    
-    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-    printw("Accion ejecutada: N/A");
-    
-    return NULL;
-}
-GenericState* Reading :: onWrq (GenericEvent * event)
-{
-    SimulationEvent * ev = (SimulationEvent *)event;
-    Point p = ev->getWhereToWrite();
-    
-    move((unsigned int)p.getX(), (unsigned int)p.getY());
-    printw("Estado = Reading");
-    
-    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-    printw("Accion ejecutada: N/A");
-    
-    return NULL;
-}
+
 GenericState* Reading :: onAck(GenericEvent * event)
 {
     SimulationEvent * ev = (SimulationEvent *)event;
@@ -223,32 +198,6 @@ GenericState* Writing :: onData (GenericEvent * event)
     return NULL;
 }
 GenericState* Writing :: onLastData (GenericEvent * event)
-{
-    SimulationEvent * ev = (SimulationEvent *)event;
-    Point p = ev->getWhereToWrite();
-    
-    move((unsigned int)p.getX(), (unsigned int)p.getY());
-    printw("Estado = Writing");
-    
-    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-    printw("Accion ejecutada: N/A");
-    
-    return NULL;
-}
-GenericState* Writing :: onRrq (GenericEvent * event)
-{
-    SimulationEvent * ev = (SimulationEvent *)event;
-    Point p = ev->getWhereToWrite();
-    
-    move((unsigned int)p.getX(), (unsigned int)p.getY());
-    printw("Estado = Writing");
-    
-    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-    printw("Accion ejecutada: N/A");
-    
-    return NULL;
-}
-GenericState* Writing :: onWrq (GenericEvent * event)
 {
     SimulationEvent * ev = (SimulationEvent *)event;
     Point p = ev->getWhereToWrite();
