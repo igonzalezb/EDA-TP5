@@ -1,5 +1,5 @@
-#include "ServerStates.hpp"
-#include "events.hpp"
+#include "ServerStates.h"
+#include "events.h"
 
 extern "C" {
 #include "curses.h"
