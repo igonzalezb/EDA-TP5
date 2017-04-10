@@ -1,11 +1,9 @@
-#include "ServerStates.h"
-#include "events.h"
+#include "ServerStates.hpp"
+#include "events.hpp"
 
 extern "C" {
 #include "curses.h"
 }
-
-
 
 GenericState* Writing :: onData (GenericEvent * event)
 {
@@ -77,11 +75,63 @@ GenericState* Writing :: onExit (GenericEvent * event)
     printw("Estado = Writing");
     
     move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-    printw("Accion ejecutada: close file");
+    printw("Accion ejecutada: close file and shut down");
     
     return NULL;
 }
 
+GenericState* Writing :: onRrq (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Writing");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Writing :: onWrq (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Writing");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Writing :: onAck(GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Writing");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Writing :: onLastAck (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Writing");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
 
 
 
@@ -160,7 +210,60 @@ GenericState* Reading :: onExit (GenericEvent * event)
     printw("Estado = Reading");
     
     move((unsigned int)p.getX()+3, (unsigned int)p.getY());
-    printw("Accion ejecutada: close file");
+    printw("Accion ejecutada: close file and shut down");
+    
+    return NULL;
+}
+
+GenericState* Reading :: onRrq (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Reading");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Reading :: onWrq (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Reading");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Reading :: onData (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Reading");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Reading :: onLastData (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Reading");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
     
     return NULL;
 }
@@ -180,7 +283,7 @@ GenericState* Idle:: onRrq (GenericEvent * event)
     return newState;
 }
 
-GenericState* onWrq (GenericEvent * event)
+GenericState* Idle:: onWrq (GenericEvent * event)
 {
     SimulationEvent * ev = (SimulationEvent *)event;
     Point p = ev->getWhereToWrite();
@@ -195,3 +298,95 @@ GenericState* onWrq (GenericEvent * event)
     return newState;
 }
 
+GenericState* Idle:: onData (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Idle");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Idle:: onLastData (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Idle");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Idle:: onAck(GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Idle");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+
+GenericState* Idle :: onLastAck (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Idle");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Idle:: onTimeout(GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Idle");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Idle:: onError (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Idle");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: N/A");
+    
+    return NULL;
+}
+GenericState* Idle::onExit (GenericEvent * event)
+{
+    SimulationEvent * ev = (SimulationEvent *)event;
+    Point p = ev->getWhereToWrite();
+    
+    move((unsigned int)p.getX(), (unsigned int)p.getY());
+    printw("Estado = Idle");
+    
+    move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+    printw("Accion ejecutada: shut down");
+    
+    return NULL;
+}
