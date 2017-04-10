@@ -1,12 +1,12 @@
 
-#ifndef ServerStates_hpp
-#define ServerStates_hpp
+#ifndef ServerStates_h
+#define ServerStates_h
 
 #include <stdio.h>
 
 
-#include "GenericState.hpp"
-#include "GenericEvent.hpp"
+#include "GenericState.h"
+#include "GenericEvent.h"
 #include <string>
 
 
@@ -62,4 +62,4 @@ public:
     virtual GenericState* onExit (GenericEvent * ev);
 };
 
-#endif /* ServerStates_hpp */
+#endif /* ServerStates_h */
