@@ -37,8 +37,6 @@ public:
     virtual GenericState* onTimeout(GenericEvent * ev);
     virtual GenericState* onError (GenericEvent * ev);
     virtual GenericState* onExit (GenericEvent * ev);
-    virtual GenericState* onRrq (GenericEvent * ev);
-    virtual GenericState* onWrq (GenericEvent * ev);
     virtual GenericState* onAck(GenericEvent * ev);
     virtual GenericState* onLastAck (GenericEvent * ev);
     
@@ -58,8 +56,6 @@ public:
     virtual GenericState* onExit (GenericEvent * ev);
     virtual GenericState* onData (GenericEvent * ev);
     virtual GenericState* onLastData (GenericEvent * ev);
-    virtual GenericState* onRrq (GenericEvent * ev);
-    virtual GenericState* onWrq (GenericEvent * ev);
     
 };
 #endif /* ClientStates_h */
