@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 
-#include "GenericState.h"
-#include "GenericEvent.h"
+#include "GenericState.hpp"
+#include "GenericEvent.hpp"
 #include <string>
 
 
@@ -31,6 +31,14 @@ public:
     
     virtual GenericState* onRrq (GenericEvent * ev);
     virtual GenericState* onWrq (GenericEvent * ev);
+    virtual GenericState* onData (GenericEvent * ev);
+    virtual GenericState* onLastData (GenericEvent * ev);
+    virtual GenericState* onAck(GenericEvent * ev);
+    virtual GenericState* onLastAck (GenericEvent * ev);
+    virtual GenericState* onTimeout(GenericEvent * ev);
+    virtual GenericState* onError (GenericEvent * ev);
+    virtual GenericState* onExit (GenericEvent * ev);
+
   
 };
  
@@ -46,6 +54,11 @@ public:
     virtual GenericState* onTimeout(GenericEvent * ev);
     virtual GenericState* onError (GenericEvent * ev);
     virtual GenericState* onExit (GenericEvent * ev);
+    virtual GenericState* onRrq (GenericEvent * ev);
+    virtual GenericState* onWrq (GenericEvent * ev);
+    virtual GenericState* onAck(GenericEvent * ev);
+    virtual GenericState* onLastAck (GenericEvent * ev);
+
 };
 
 
@@ -60,6 +73,11 @@ public:
     virtual GenericState* onTimeout(GenericEvent * ev);
     virtual GenericState* onError (GenericEvent * ev);
     virtual GenericState* onExit (GenericEvent * ev);
+    virtual GenericState* onRrq (GenericEvent * ev);
+    virtual GenericState* onWrq (GenericEvent * ev);
+    virtual GenericState* onData (GenericEvent * ev);
+    virtual GenericState* onLastData (GenericEvent * ev);
+
 };
 
 #endif /* ServerStates_h */
