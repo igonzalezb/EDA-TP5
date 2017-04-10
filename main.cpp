@@ -68,13 +68,26 @@ int main(void)
 		"\tque se generó un nuevo evento y responde ante ese evento \n"
 		"\trealizando una acción y cambiando el estado.");
 
-	move(7, 20);
+	move(6, 3);
+	printw("Eventos\t\t\t|");
+	move(8, 3);
+	printw("A = WRQ\t\t\t|");
+	move(9, 3);
+	printw("B = TIMEOUT\t\t\t|");
+	move(10, 3);
+	printw("C = LAST_DATA_PAQUET\t\t|");
+	
+	
+	
+	move(6, 45);
+	printw("Status de la FMS");
+	move(8, 40);
 	printw("Estado = Idle");
-	move(8, 20);
+	move(9, 40);
 	printw("Evento Recibido: Esperando Evento...");
-	move(9, 20);
+	move(10, 40);
 	printw("Último Evento Recibido: N/A");
-	move(10, 20);
+	move(11, 40);
 	printw("Accion ejecutada: N/A");
 
 	move(2*EVENT_COUNT + 7,0);			
@@ -87,19 +100,19 @@ int main(void)
 		newEv = eventGenerator();
 
 		if (newEv != NULL) {
-			move(8, 20);
+			move(9, 40);
 			lastEvent = ((SimulationEvent*)newEv)->getName();
-			printw("Evento Recibido: %s\t\t", &(lastEvent[0]));
+			printw("Evento Recibido: %s\t\t\t", &(lastEvent[0]));
 			this_thread::sleep_for(chrono::seconds(1));
 
 			fsm.dispach(*newEv);
 			this_thread::sleep_for(chrono::seconds(1));
-			move(9, 20);
-			printw("Ultimo evento Recibido: %s\t\t", &(lastEvent[0]));
+			move(10, 40);
+			printw("Ultimo evento Recibido: %s\t\t\t", &(lastEvent[0]));
 		}
 		else {
-			move(8,20);
-			printw("Evento Recibido: esperando evento\t\t");
+			move(9,40);
+			printw("Evento Recibido: esperando evento\t\t\t");
 		}
 	}
 	while (newEv == NULL || (newEv->type() != EXIT && newEv->type()!= ERROR));
@@ -113,10 +126,6 @@ int main(void)
 }
 
 
-
-
-
-
 GenericEvent * eventGenerator()
 {
 	GenericEvent * ev = NULL;
@@ -125,31 +134,31 @@ GenericEvent * eventGenerator()
 	
 	switch(tolower(key)){
 		case ACK_K:
-			ev = new Ack(7,20); 
+			ev = new Ack(8,40); 
 			break;
 
 		case LAST_ACK_K:
-			ev = new LastAck(7,20); 
+			ev = new LastAck(8,40); 
 			break;
 
 		case DATA_K: 
-			ev = new Data(7,20); 
+			ev = new Data(8,40); 
 			break;
 
 		case LAST_DATA_K: 
-			ev = new LastData(7,20); 
+			ev = new LastData(8,40); 
 			break;
 
 		case TIMEOUT_K: 
-			ev = new Timeout(7,20); 
+			ev = new Timeout(8,40); 
 			break;
 
 		case ERROR_K: 
-			ev = new Error(7,20); 
+			ev = new Error(8,40); 
 			break;
 
 		case EXIT_K: 
-			ev = new Exit(7,20); 
+			ev = new Exit(8,40); 
 			break;
 	}
 
