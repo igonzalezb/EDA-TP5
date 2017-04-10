@@ -49,6 +49,34 @@ GenericState* Reading :: onTimeout(GenericEvent * event)
 }
 
 
+GenericState* Reading :: onError (GenericEvent * event)
+{
+	SimulationEvent * ev = (SimulationEvent *)event;
+	Point p = ev->getWhereToWrite();
+
+	move((unsigned int)p.getX(), (unsigned int)p.getY());
+	printw("Estado = Reading\t\t");
+
+	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+	printw("Accion ejecutada: close file\t\t");
+
+	return NULL;
+}
+
+
+GenericState* Reading :: onExit (GenericEvent * event)
+{
+	SimulationEvent * ev = (SimulationEvent *)event;
+	Point p = ev->getWhereToWrite();
+
+	move((unsigned int)p.getX(), (unsigned int)p.getY());
+	printw("Estado = Reading\t\t");
+
+	move((unsigned int)p.getX()+3, (unsigned int)p.getY());
+	printw("Accion ejecutada: close file\t\t");
+
+	return NULL;
+}
 
 
 

@@ -43,11 +43,105 @@ using namespace std;
 
 
 
+//int main(void) 
+//{
+//	WINDOW * winTest=NULL;                     //Variable en dónde se guarda la terminal (Window) en donde voy a trabajar.
+//	GenericEvent * newEv = NULL;
+//	string lastEvent;
+//	int key;
+//
+//	//Inicializo la terminal y verifico que se haya inicializado correctamente:
+//	winTest = initscr();
+//	if(winTest == NULL)
+//	{
+//		return EXIT_FAILURE;
+//	}
+//	//Esta opción hace que siempre que se llame a una función que escribe se refresque la pantalla.
+//	immedok(winTest,TRUE);
+//	//Con las dos opciones de abajo elijo que el getch()sea no bloqueante (nodelay TRUE) y que no
+//	//muestr los caracteres cuando el usuario los escribe (noecho).
+//	nodelay(winTest, TRUE);
+//	noecho();
+//	curs_set(0);
+//
+//	printw("\tPrograma de simulación de cliente TFTP implementado con FSM \n\n"
+//		"\tCuando el usuario presiona las teclas de Eventos entiende \n"
+//		"\tque se generó un nuevo evento y responde ante ese evento \n"
+//		"\trealizando una acción y cambiando el estado.\n\n"
+//		"\t Simular lectura o escritura? (r/w) ");
+//
+//	
+//	GenericFSM fsm;
+//
+//	do { key = getch();	}
+//	while (key!= 'r' && key != 'w');
+//
+//	
+//	move(5,0);
+//	printw("\t\t\t\t\t\t\t");
+//
+//	move (7,20);
+//	switch (key) {
+//		case 'r':
+//			fsm.setState(new Reading());
+//			printw("Estado = Reading");
+//		break;
+//
+//		case 'w':
+//			fsm.setState(new Writing());
+//			printw("Estado = Writing");
+//		break;
+//	}
+//
+//
+//	move(8, 20);
+//	printw("Evento Recibido: Esperando Evento...");
+//	move(9, 20);
+//	printw("Último Evento Recibido: N/A");
+//	move(10, 20);
+//	printw("Accion ejecutada: N/A");
+//
+//	move(2*EVENT_COUNT + 7,0);			
+//	printw("Press \"Q\" to continue...\n");
+//
+//
+//	do {
+//		delete newEv;
+//		newEv = eventGenerator();
+//
+//		if (newEv != NULL) {
+//			move(8, 20);
+//			lastEvent = ((SimulationEvent*)newEv)->getName();
+//			printw("Evento Recibido: %s\t\t", &(lastEvent[0]));
+//			this_thread::sleep_for(chrono::seconds(1));
+//
+//			fsm.dispach(*newEv);
+//			this_thread::sleep_for(chrono::seconds(1));
+//			move(9, 20);
+//			printw("Ultimo evento Recibido: %s\t\t", &(lastEvent[0]));
+//		}
+//		else {
+//			move(8,20);
+//			printw("Evento Recibido: esperando evento\t\t");
+//		}
+//	}
+//	while (newEv == NULL || (newEv->type() != EXIT && newEv->type()!= ERROR));
+//	
+//
+//	//Llamo para termiar PDCurses.
+//	endwin();
+//	
+//		
+//	return 0;
+//}
+//
+
 int main(void) 
 {
 	WINDOW * winTest=NULL;                     //Variable en dónde se guarda la terminal (Window) en donde voy a trabajar.
 	GenericEvent * newEv = NULL;
 	string lastEvent;
+	int key;
 
 	//Inicializo la terminal y verifico que se haya inicializado correctamente:
 	winTest = initscr();
@@ -66,7 +160,41 @@ int main(void)
 	printw("\tPrograma de simulación de cliente TFTP implementado con FSM \n\n"
 		"\tCuando el usuario presiona las teclas de Eventos entiende \n"
 		"\tque se generó un nuevo evento y responde ante ese evento \n"
-		"\trealizando una acción y cambiando el estado.");
+		"\trealizando una acción y cambiando el estado.\n\n"
+		"\t Simular lectura o escritura? (r/w) ");
+
+	
+	move(2*EVENT_COUNT + 7,0);			
+	
+	GenericFSM fsm;
+
+	do { key = getch();	}
+	while (key!= 'r' && key != 'w');
+
+	move(5,0);
+	printw("\t\t\t\t\t\t\t");
+	
+	move(6, 45);
+	printw("Status de la FMS");
+	move(9, 40);
+	printw("Evento Recibido: Esperando Evento...");
+	move(10, 40);
+	printw("Último Evento Recibido: N/A");
+	move(11, 40);
+	printw("Accion ejecutada: N/A");
+	
+	move (8,40);
+	switch (key) {
+		case 'r':
+			fsm.setState(new Reading());
+			printw("Estado = Reading");
+		break;
+
+		case 'w':
+			fsm.setState(new Writing());
+			printw("Estado = Writing");
+		break;
+	}
 
 	move(6, 3);
 	printw("Eventos\t\t\t|");
@@ -76,24 +204,10 @@ int main(void)
 	printw("B = TIMEOUT\t\t\t|");
 	move(10, 3);
 	printw("C = LAST_DATA_PAQUET\t\t|");
-	
-	
-	
-	move(6, 45);
-	printw("Status de la FMS");
-	move(8, 40);
-	printw("Estado = Idle");
-	move(9, 40);
-	printw("Evento Recibido: Esperando Evento...");
-	move(10, 40);
-	printw("Último Evento Recibido: N/A");
-	move(11, 40);
-	printw("Accion ejecutada: N/A");
 
 	move(2*EVENT_COUNT + 7,0);			
-	printw("Press \"Q\" to continue...\n");
+	printw("\tPress \"Q\" to continue...\n");
 
-	GenericFSM fsm (new Writing());
 
 	do {
 		delete newEv;

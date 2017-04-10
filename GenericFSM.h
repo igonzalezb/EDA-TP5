@@ -8,9 +8,11 @@
 class GenericFSM
 {
 public:
+	GenericFSM() {;};
 	GenericFSM(GenericState * firstState) { currentState = firstState; };
 	void dispach(GenericEvent& ev);
 	~GenericFSM() { delete currentState ;};
+	void setState(GenericState * state) {currentState = state;};
 private:
 
 protected:
