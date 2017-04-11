@@ -1,5 +1,8 @@
 #include "events.h"
 
+// SE DEFINEN LOS CONSTRUCTORES DE CADA UNA DE LAS CLASES DE LOS EVENTOS
+// Settean el tipo de evento correspondiente a cada clase.
+
 rrq:: rrq()
 {
     ev = RRQ_;
