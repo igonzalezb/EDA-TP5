@@ -1,11 +1,3 @@
-//
-//  ClientStates.hpp
-//  tp5
-//
-//  Created by Martu Maspero on 4/9/17.
-//  Copyright © 2017 mmaspero. All rights reserved.
-//
-
 #ifndef ClientStates_h
 #define ClientStates_h
 
@@ -27,6 +19,13 @@ protected:
     string name;
 };
 
+// CLASES CON CADA ESTADO POSIBLE PARA EL CLIENTE 
+
+/* Estado Reading 
+ * El cliente hizo un RRQ. Cada metodo es una redefinicion de los metodos de GenericState.
+ * Realizan la accion correspondiente a cada evento que se recibe. 
+ */
+
 class Reading : public SimulationState
 {
 public:
@@ -42,6 +41,10 @@ public:
     
 };
 
+/* Estado Reading 
+ * El cliente hizo un WRQ. Cada metodo es una redefinicion de los metodos de GenericState.
+ * Realizan la accion correspondiente a cada evento que se recibe. 
+ */
 
 class Writing : public SimulationState
 {
