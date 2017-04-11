@@ -1,6 +1,10 @@
 #ifndef GENERIC_EVENT_H
 #define GENERIC_EVENT_H
 
+/* Switch de compilacion, dependiendo si soy el server o el cliente incluyo
+ * server.h o client.h respectivamente 
+ */
+
 #define	CLIENT	1	
 #define SERVER	0
 
@@ -15,16 +19,16 @@
 #endif
 
 
-
+// Base de un evento
 class genericEvent
 {
 public:
-	event_t type()
+	event_t type() // devuelve el tipo de evento que es 
 	{
 		return ev;
 	}
 protected:
-	event_t ev;
+	event_t ev; //tipo de evento
 
 private:
 
